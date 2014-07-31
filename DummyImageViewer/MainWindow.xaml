@@ -1,0 +1,320 @@
+﻿ <!--
+/*
+ * Dummy Image Viewer (DiV) - I need it to scan ladle tracking snapshots... :D
+ * Copyright (C) 2014  Federico Zanco [federico.zanco (at) gmail.com]
+ * 
+ * This file is part of Dummy Image Viewer.
+ * 
+ * Dummy Image Viewer is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Dummy Image Viewer; if not, If not, see<http://www.gnu.org/licenses/> .
+ */
+-->
+    
+<Window x:Class="DummyImageViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DummyImageViewer"
+        Title="{Binding WindowTitle}"
+        ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight"
+        Icon="icon.png"
+        Background="Transparent">
+
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Up" Command="{Binding UpCommand}" CommandParameter="Up" />
+        <KeyBinding Key="Down" Command="{Binding DownCommand}" CommandParameter="Down" />
+        <KeyBinding Key="Left" Command="{Binding LeftCommand}" CommandParameter="Left" />
+        <KeyBinding Key="Right" Command="{Binding RightCommand}" CommandParameter="Right" />
+        <KeyBinding Key="Home" Command="{Binding HomeCommand}" CommandParameter="Home" />
+        <KeyBinding Key="End" Command="{Binding EndCommand}" CommandParameter="End" />
+        <KeyBinding Key="T" Command="{Binding ToggleThumbsCommand}" />
+        <KeyBinding Key="R" Command="{Binding ReloadCommand}" />
+        <KeyBinding Key="H" Command="{Binding HelpCommand}" />
+        <KeyBinding Key="S" Command="{Binding SettingsCommand}" />
+
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Up}" Command="{Binding ZoomCommand}" CommandParameter="Up" />
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Down}" Command="{Binding ZoomCommand}" CommandParameter="Down" />
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Image Name="Backward4"
+               Grid.Row="0"
+               Grid.Column="0"
+               Source="{Binding Backward4ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+        
+        <Image Name="Backward3"
+               Grid.Row="1"
+               Grid.Column="0"
+               Source="{Binding Backward3ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+        
+        <Image Name="Backward2"
+               Grid.Row="2"
+               Grid.Column="0"
+               Source="{Binding Backward2ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+        
+        <Image Name="Backward1"
+               Grid.Row="3"
+               Grid.Column="0"
+               Source="{Binding Backward1ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+        
+        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Image Name="Image"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.RowSpan="3"
+                   Grid.ColumnSpan="3"
+                   Source="{Binding ImageSource}"
+                   Height="{Binding ImageHeight}"
+                   Width="{Binding ImageWidth}" />
+
+            <Button Name="UpButton"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    Command="{Binding UpCommand}" CommandParameter="Up" >
+                <Polygon Points="0,30 50,30, 25,0" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+            </Button>
+
+            <Button Name="DownButton"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    Command="{Binding DownCommand}" CommandParameter="Down">
+                <Polygon Points="0,0 50,0, 25,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+            </Button>
+
+            <Button Name="LeftButton"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    Command="{Binding LeftCommand}" CommandParameter="Left">
+                <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+            </Button>
+
+            <Button Name="RightButton"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    BorderBrush="Transparent"
+                    Background="Transparent"
+                    Command="{Binding RightCommand}" CommandParameter="Right">
+                <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+            </Button>
+
+            <!-- Help -->
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.RowSpan="3"
+                  Grid.ColumnSpan="3"
+                  Background="#99000000"
+                  HorizontalAlignment="Center"
+                  Visibility="{Binding IsHelpVisible, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Title -->
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Dummy Image Viewer Help" />
+
+                <!-- Up -->
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Go back of " />
+                    <Label Content="{Binding Skip}" />
+                    <Label Content=" images" />
+                </StackPanel>
+                <Label Grid.Row="1" Grid.Column="1" Content="Up" />
+
+                <!-- Down -->
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                    <Label Content="Skip forward of " />
+                    <Label Content="{Binding Skip}" />
+                    <Label Content=" images" />
+                </StackPanel>
+                <Label Grid.Row="2" Grid.Column="1" Content="Down" />
+
+                <!-- Left -->
+                <Label Grid.Row="3" Grid.Column="0" Content="Go to prev image" />
+                <Label Grid.Row="3" Grid.Column="1" Content="Left" />
+
+                <!-- Right -->
+                <Label Grid.Row="4" Grid.Column="0" Content="Go to next image" />
+                <Label Grid.Row="4" Grid.Column="1" Content="Right" />
+
+                <!-- Home -->
+                <Label Grid.Row="5" Grid.Column="0" Content="Go to first image" />
+                <Label Grid.Row="5" Grid.Column="1" Content="Home" />
+
+                <!-- End -->
+                <Label Grid.Row="6" Grid.Column="0" Content="Go to last image" />
+                <Label Grid.Row="6" Grid.Column="1" Content="End" />
+
+                <!-- T -->
+                <Label Grid.Row="7" Grid.Column="0" Content="Toggle thumbs" />
+                <Label Grid.Row="7" Grid.Column="1" Content="T" />
+
+                <!-- R -->
+                <Label Grid.Row="8" Grid.Column="0" Content="Reload images" />
+                <Label Grid.Row="8" Grid.Column="1" Content="R" />
+
+                <!-- H -->
+                <Label Grid.Row="9" Grid.Column="0" Content="Help" />
+                <Label Grid.Row="9" Grid.Column="1" Content="H" />
+
+                <!-- S -->
+                <Label Grid.Row="10" Grid.Column="0" Content="Settings" />
+                <Label Grid.Row="10" Grid.Column="1" Content="S" />
+
+                <!-- Wheel Up -->
+                <Label Grid.Row="11" Grid.Column="0" Content="Zoom In" />
+                <Label Grid.Row="11" Grid.Column="1" Content="Mouse Wheel Up" />
+
+                <!-- Wheel Down -->
+                <Label Grid.Row="12" Grid.Column="0" Content="Zoom Out" />
+                <Label Grid.Row="12" Grid.Column="1" Content="Mouse Wheel Down" />
+
+                <!-- Credits -->
+                <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)" />
+            </Grid>
+
+            <!-- Settings -->
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.RowSpan="3"
+                  Grid.ColumnSpan="3"
+                  Background="#99000000"
+                  HorizontalAlignment="Center"
+                  Visibility="{Binding AreSettingsVisible, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Title -->
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Dummy Image Viewer Options" />
+
+                <!-- Skip -->
+                <Label Grid.Row="1" Grid.Column="0" Content="Skip" />
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SkipValues}" SelectedValue="{Binding Skip}" />
+
+                <!-- Default Width -->
+                <Label Grid.Row="2" Grid.Column="0" Content="Default Width" />
+                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ImageWidthValues}" SelectedValue="{Binding ImageWidth}" />
+                
+                <!-- Thumb Width -->
+                <Label Grid.Row="3" Grid.Column="0" Content="Thumb Width" />
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ImageWidthValues}" SelectedValue="{Binding ThumbImageWidth}" />
+
+            </Grid>
+        </Grid>
+
+        <Image Name="Forward1"
+               Grid.Row="0"
+               Grid.Column="2"
+               Source="{Binding Forward1ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+
+        <Image Name="Forward2"
+               Grid.Row="1"
+               Grid.Column="2"
+               Source="{Binding Forward2ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+
+        <Image Name="Forward3"
+               Grid.Row="2"
+               Grid.Column="2"
+               Source="{Binding Forward3ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+
+        <Image Name="Forward4"
+               Grid.Row="3"
+               Grid.Column="2"
+               Source="{Binding Forward4ImageSource}"
+               Height="{Binding ThumbImageHeight}"
+               Width="{Binding ThumbImageWidth}"
+               Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
+    </Grid>
+</Window>
