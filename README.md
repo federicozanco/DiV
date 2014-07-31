@@ -1,4 +1,4 @@
-Dummy Image Vievwer (DiV)
+Dummy Image Viewer (DiV)
 ===
 
 Tiny (simple and raw) standalone image viewer written in WPF (Windows Presentation Foundation)
