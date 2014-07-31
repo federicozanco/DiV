@@ -245,7 +245,7 @@
                 <Label Grid.Row="12" Grid.Column="1" Content="Mouse Wheel Down" />
 
                 <!-- Credits -->
-                <Label Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)" />
+                <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)" />
             </Grid>
 
             <!-- Settings -->
