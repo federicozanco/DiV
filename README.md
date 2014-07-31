@@ -9,3 +9,5 @@ Nothing really new but I need it to scan tons of date-ordered snapshots in ladle
 Press H for help.
 
 Have fun!
+
+![Screenshot](https://github.com/federicozanco/DiV/blob/master/misc/snapshot.jpg)
