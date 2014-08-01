@@ -6,7 +6,9 @@ with preview features, supporting .jpg, .png, .gif, .bmp.
 
 Nothing really new but I need it to scan tons of date-ordered snapshots in ladle tracking.
 
-You can find a binary here: ![Download DiV executable](http://www.siorarina.net/div/DummyImageViewer.zip)
+You can find a binary here: 
+
+[http://www.siorarina.net/dummy-image-viewer-div-i-dont-like-wpf-very-much-but]
 
 Press H for help.
 
