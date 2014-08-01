@@ -761,13 +761,11 @@ namespace DummyImageViewer
             if (direction == "Up" && imageWidth * 2.0 <= MAX_IMAGE_WIDTH && imageHeight * 2.0 <= MAX_IMAGE_HEIGHT)
             {
                 ImageWidth = imageWidth * 2.0;
-                ImageHeight = imageHeight * 2.0;
             }
 
             if (direction == "Down" && imageWidth / 2.0 >= MIN_IMAGE_WIDTH && imageHeight / 2.0 >= MIN_IMAGE_HEIGHT)
             {
                 ImageWidth = imageWidth / 2.0;
-                ImageHeight = imageHeight / 2.0;
             }
         }
 
