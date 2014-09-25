@@ -45,6 +45,8 @@
         <KeyBinding Key="R" Command="{Binding ReloadCommand}" />
         <KeyBinding Key="H" Command="{Binding HelpCommand}" />
         <KeyBinding Key="S" Command="{Binding SettingsCommand}" />
+        
+        <KeyBinding Gesture="CTRL+C" Command="{Binding CopyCommand}" />
 
         <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Up}" Command="{Binding ZoomCommand}" CommandParameter="Up" />
         <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Down}" Command="{Binding ZoomCommand}" CommandParameter="Down" />
@@ -126,7 +128,10 @@
                     BorderBrush="Transparent"
                     Background="Transparent"
                     Command="{Binding UpCommand}" CommandParameter="Up" >
-                <Polygon Points="0,30 50,30, 25,0" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                <StackPanel Orientation="Horizontal">
+                    <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                    <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                </StackPanel>
             </Button>
 
             <Button Name="DownButton"
@@ -135,7 +140,10 @@
                     BorderBrush="Transparent"
                     Background="Transparent"
                     Command="{Binding DownCommand}" CommandParameter="Down">
-                <Polygon Points="0,0 50,0, 25,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                <StackPanel Orientation="Horizontal">
+                    <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                    <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                </StackPanel>
             </Button>
 
             <Button Name="LeftButton"

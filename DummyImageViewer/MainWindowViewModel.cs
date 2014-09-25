@@ -29,6 +29,7 @@ using System.Windows.Input;
 using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace DummyImageViewer
 {
@@ -498,6 +499,14 @@ namespace DummyImageViewer
         /// The options command.
         /// </value>
         public ICommand SettingsCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the copy command.
+        /// </summary>
+        /// <value>
+        /// The copy command.
+        /// </value>
+        public ICommand CopyCommand { get; set; }
         #endregion
 
         #region INotifyPropertyChanged
@@ -532,6 +541,7 @@ namespace DummyImageViewer
             ReloadCommand = new SimpleDelegateCommand(ReloadCommandExecute, ReloadCommandCanExecute);
             HelpCommand = new SimpleDelegateCommand(HelpCommandExecute, HelpCommandCanExecute);
             SettingsCommand = new SimpleDelegateCommand(SettingsCommandExecute, SettingsCommandCanExecute);
+            CopyCommand = new SimpleDelegateCommand(CopyCommandExecute, CopyCommandCanExecute);
 
             SkipValues = new List<int>();
             for (int i = 2; i <= 1024; i *= 2)
@@ -706,9 +716,9 @@ namespace DummyImageViewer
             string key = parameter as string;
 
             if (key == "Up")
-                index = Math.Max(index - Skip, 0);
-            else if (key == "Down")
                 index = Math.Min(index + Skip, imageFiles.Count - 1);
+            else if (key == "Down")
+                index = Math.Max(index - Skip, 0);
             else if (key == "Left")
                 index = Math.Max(index - 1, 0);
             else if (key == "Right")
@@ -723,12 +733,12 @@ namespace DummyImageViewer
 
         private bool UpCommandCanExecute(object parameter)
         {
-            return imageFiles != null && index - Skip >= 0;
+            return imageFiles != null && index + Skip < imageFiles.Count;
         }
 
         private bool DownCommandCanExecute(object parameter)
         {
-            return imageFiles != null && index + Skip < imageFiles.Count;
+            return imageFiles != null && index - Skip >= 0;
         }
 
         private bool LeftCommandCanExecute(object parameter)
@@ -815,6 +825,20 @@ namespace DummyImageViewer
             return true;
         }
 
+        private void CopyCommandExecute(object parameter)
+        {
+            DataObject objData = new DataObject();
+            string[] filename = new string[1];
+            filename[0] = Uri.UnescapeDataString(ImageSource.AbsolutePath);
+            objData.SetData(DataFormats.FileDrop, filename, true);
+            Clipboard.SetDataObject(objData, true);
+        }
+
+        private bool CopyCommandCanExecute(object parameter)
+        {
+            return ImageSource != null;
+        }
+
         private void SetCommandsExecutionStatus()
         {
             (UpCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
@@ -828,6 +852,7 @@ namespace DummyImageViewer
             (ReloadCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
             (HelpCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
             (SettingsCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
+            (CopyCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
         }
         #endregion
         #endregion
