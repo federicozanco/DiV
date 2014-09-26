@@ -127,6 +127,7 @@
                     Grid.Column="1"
                     BorderBrush="Transparent"
                     Background="Transparent"
+                    Margin="10"
                     Command="{Binding UpCommand}" CommandParameter="Up" >
                 <StackPanel Orientation="Horizontal">
                     <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
@@ -139,6 +140,7 @@
                     Grid.Column="1"
                     BorderBrush="Transparent"
                     Background="Transparent"
+                    Margin="10"
                     Command="{Binding DownCommand}" CommandParameter="Down">
                 <StackPanel Orientation="Horizontal">
                     <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
@@ -151,6 +153,7 @@
                     Grid.Column="0"
                     BorderBrush="Transparent"
                     Background="Transparent"
+                    Margin="10"
                     Command="{Binding LeftCommand}" CommandParameter="Left">
                 <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
             </Button>
@@ -160,6 +163,7 @@
                     Grid.Column="2"
                     BorderBrush="Transparent"
                     Background="Transparent"
+                    Margin="10"
                     Command="{Binding RightCommand}" CommandParameter="Right">
                 <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
             </Button>
@@ -173,6 +177,7 @@
                   HorizontalAlignment="Center"
                   Visibility="{Binding IsHelpVisible, Converter={StaticResource BooleanToVisibility}}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -252,8 +257,12 @@
                 <Label Grid.Row="12" Grid.Column="0" Content="Zoom Out" />
                 <Label Grid.Row="12" Grid.Column="1" Content="Mouse Wheel Down" />
 
+                <!-- Copy -->
+                <Label Grid.Row="13" Grid.Column="0" Content="Copy" />
+                <Label Grid.Row="13" Grid.Column="1" Content="Ctrl+C" />
+
                 <!-- Credits -->
-                <Label Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)" />
+                <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)"  Margin="20"/>
             </Grid>
 
             <!-- Settings -->
