@@ -19,27 +19,16 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
-using System.Drawing;
+using DummyImageViewer.Properties;
 
 namespace DummyImageViewer
 {
     /// <summary>
     /// Logica di interazione per MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -50,12 +39,15 @@ namespace DummyImageViewer
 
             MainWindowViewModel model = DataContext as MainWindowViewModel;
 
-            model.Skip = (int)Properties.Settings.Default["Skip"];
-            model.ImageWidth = (double)Properties.Settings.Default["ImageWidth"];
-            model.ThumbImageWidth = (double)Properties.Settings.Default["ThumbImageWidth"];
-            
+            if (model != null)
+            {
+                model.Skip = (int)Settings.Default["Skip"];
+                model.ImageWidth = (double)Settings.Default["ImageWidth"];
+                model.ThumbImageWidth = (double)Settings.Default["ThumbImageWidth"];
+            }
+
             // Make sure we handle command line args:
-            this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -69,7 +61,10 @@ namespace DummyImageViewer
                     // Act on the file...
                     if (File.Exists(filename))
                     {
-                        (this.DataContext as MainWindowViewModel).ImageSource = new Uri(System.IO.Path.GetFullPath(filename));
+                        MainWindowViewModel model = DataContext as MainWindowViewModel;
+
+                        if (model != null)
+                            model.ImageSource = new Uri(Path.GetFullPath(filename));
                     }
                 }
             }
@@ -84,12 +79,14 @@ namespace DummyImageViewer
             base.OnClosed(e);
 
             MainWindowViewModel model = DataContext as MainWindowViewModel;
+            if (model == null)
+                return;
 
-            Properties.Settings.Default["Skip"] = model.Skip;
-            Properties.Settings.Default["ImageWidth"] = model.ImageWidth;
-            Properties.Settings.Default["ThumbImageWidth"] = model.ThumbImageWidth;
+            Settings.Default["Skip"] = model.Skip;
+            Settings.Default["ImageWidth"] = model.ImageWidth;
+            Settings.Default["ThumbImageWidth"] = model.ThumbImageWidth;
 
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
     }
 }

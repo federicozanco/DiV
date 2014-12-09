@@ -173,7 +173,7 @@
                   Grid.Column="0"
                   Grid.RowSpan="3"
                   Grid.ColumnSpan="3"
-                  Background="#99000000"
+                  Background="#99505050"
                   HorizontalAlignment="Center"
                   Visibility="{Binding IsHelpVisible, Converter={StaticResource BooleanToVisibility}}">
                 <Grid.RowDefinitions>
@@ -270,7 +270,7 @@
                   Grid.Column="0"
                   Grid.RowSpan="3"
                   Grid.ColumnSpan="3"
-                  Background="#99000000"
+                  Background="#99505050"
                   HorizontalAlignment="Center"
                   Visibility="{Binding AreSettingsVisible, Converter={StaticResource BooleanToVisibility}}">
                 <Grid.RowDefinitions>

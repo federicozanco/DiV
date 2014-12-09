@@ -20,15 +20,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Drawing;
 using System.IO;
-using System.Windows.Media.Imaging;
 using System.Windows;
 
 namespace DummyImageViewer
@@ -39,49 +32,50 @@ namespace DummyImageViewer
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         #region Constants
-        public const String DEFAULT_WINDOW_TITLE = "DiV";
+        public const String DefaultWindowTitle = "DiV";
 
-        public const Double DEFAULT_IMAGE_WIDTH = 640.0;
-        public const Double DEFAULT_IMAGE_HEIGHT = 512.0;
-        public const Double MIN_IMAGE_WIDTH = 20.0;
-        public const Double MIN_IMAGE_HEIGHT = 16.0;
-        public const Double MAX_IMAGE_WIDTH = 1280.0;
-        public const Double MAX_IMAGE_HEIGHT = 1024.0;
-        public const Double DEFAULT_THUMB_IMAGE_WIDTH = 160.0;
-        public const Double DEFAULT_THUMB_IMAGE_HEIGHT = 128.0;
+        public const Double DefaultImageWidth = 640.0;
+        public const Double DefaultImageHeight = 512.0;
+        public const Double MinImageWidth = 20.0;
+        public const Double MinImageHeight = 16.0;
+        public const Double MaxImageWidth = 1280.0;
+        public const Double MaxImageHeight = 1024.0;
+        public const Double DefaultThumbImageWidth = 160.0;
+        public const Double DefaultThumbImageHeight = 128.0;
 
-        public const int DEFAULT_SKIP = 32;
+        public const int DefaultSkip = 32;
 
-        public const String DEFAULT_IMAGE = "pack://application:,,,/notfound.png";
+        public const String DefaultImage = "pack://application:,,,/notfound.png";
         #endregion
 
         #region Private
-        public int[] Skips = { 8, 8, 16, 32 };
-        public string[] ImageFormatExtensions = { ".jpg", ".png", ".gif", ".bmp" };
+        // NOTE: skips are half value of the current shift (+=/-=)
+        private readonly int[] _skips = { 8, 8, 16, 32 };
+        private readonly string[] _imageFormatExtensions = { ".jpg", ".png", ".gif", ".bmp" };
 
-        private String windowTitle = DEFAULT_WINDOW_TITLE;
+        private String _windowTitle = DefaultWindowTitle;
         
-        private Uri imageSource = new Uri(DEFAULT_IMAGE);
-        private Uri backward1ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri backward2ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri backward3ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri backward4ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri forward1ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri forward2ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri forward3ImageSource = new Uri(DEFAULT_IMAGE);
-        private Uri forward4ImageSource = new Uri(DEFAULT_IMAGE);
+        private Uri _imageSource = new Uri(DefaultImage);
+        private Uri _backward1ImageSource = new Uri(DefaultImage);
+        private Uri _backward2ImageSource = new Uri(DefaultImage);
+        private Uri _backward3ImageSource = new Uri(DefaultImage);
+        private Uri _backward4ImageSource = new Uri(DefaultImage);
+        private Uri _forward1ImageSource = new Uri(DefaultImage);
+        private Uri _forward2ImageSource = new Uri(DefaultImage);
+        private Uri _forward3ImageSource = new Uri(DefaultImage);
+        private Uri _forward4ImageSource = new Uri(DefaultImage);
 
-        private Double imageWidth = DEFAULT_IMAGE_WIDTH;
-        private Double imageHeight = DEFAULT_IMAGE_HEIGHT;
-        private Double thumbImageWidth = DEFAULT_THUMB_IMAGE_WIDTH;
-        private Double thumbImageHeight = DEFAULT_THUMB_IMAGE_HEIGHT;
-        private List<string> imageFiles = null;
-        private int index = -1;
-        private int skip = DEFAULT_SKIP;
+        private Double _imageWidth = DefaultImageWidth;
+        private Double _imageHeight = DefaultImageHeight;
+        private Double _thumbImageWidth = DefaultThumbImageWidth;
+        private Double _thumbImageHeight = DefaultThumbImageHeight;
+        private List<string> _imageFiles;
+        private int _index = -1;
+        private int _skip = DefaultSkip;
 
-        private bool areThumbsVisible = true;
-        private bool isHelpVisible = false;
-        private bool areSettingsVisible = false;
+        private bool _areThumbsVisible = true;
+        private bool _isHelpVisible;
+        private bool _areSettingsVisible;
         #endregion
 
         #region Public Properties
@@ -93,10 +87,10 @@ namespace DummyImageViewer
         /// </value>
         public String WindowTitle
         {
-            get { return windowTitle; }
+            get { return _windowTitle; }
             set
             {
-                windowTitle = value;
+                _windowTitle = value;
                 NotifyPropertyChanged("WindowTitle");
             }
         }
@@ -109,18 +103,18 @@ namespace DummyImageViewer
         /// </value>
         public Uri ImageSource
         {
-            get { return imageSource; }
+            get { return _imageSource; }
             set
             {
-                imageSource = value;
+                _imageSource = value;
                 NotifyPropertyChanged("ImageSource");
 
                 ReadImageFiles();
 
-                if (imageFiles != null && index >= 0 && index < imageFiles.Count)
-                    WindowTitle = DEFAULT_WINDOW_TITLE + " - " + Path.GetFileName(imageFiles[index]) + "   (" + (index + 1) + " / " + imageFiles.Count + ")";
+                if (_imageFiles != null && _index >= 0 && _index < _imageFiles.Count)
+                    WindowTitle = DefaultWindowTitle + " - " + Path.GetFileName(_imageFiles[_index]) + "   (" + (_index + 1) + " / " + _imageFiles.Count + ")";
                 else
-                    WindowTitle = DEFAULT_WINDOW_TITLE;
+                    WindowTitle = DefaultWindowTitle;
 
                 SetCommandsExecutionStatus();
             }
@@ -134,10 +128,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Backward1ImageSource
         {
-            get { return backward1ImageSource; }
+            get { return _backward1ImageSource; }
             set
             {
-                backward1ImageSource = value;
+                _backward1ImageSource = value;
                 NotifyPropertyChanged("Backward1ImageSource");
             }
         }
@@ -150,10 +144,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Backward2ImageSource
         {
-            get { return backward2ImageSource; }
+            get { return _backward2ImageSource; }
             set
             {
-                backward2ImageSource = value;
+                _backward2ImageSource = value;
                 NotifyPropertyChanged("Backward2ImageSource");
             }
         }
@@ -166,10 +160,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Backward3ImageSource
         {
-            get { return backward3ImageSource; }
+            get { return _backward3ImageSource; }
             set
             {
-                backward3ImageSource = value;
+                _backward3ImageSource = value;
                 NotifyPropertyChanged("Backward3ImageSource");
             }
         }
@@ -182,10 +176,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Backward4ImageSource
         {
-            get { return backward4ImageSource; }
+            get { return _backward4ImageSource; }
             set
             {
-                backward4ImageSource = value;
+                _backward4ImageSource = value;
                 NotifyPropertyChanged("Backward4ImageSource");
             }
         }
@@ -198,10 +192,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Forward1ImageSource
         {
-            get { return forward1ImageSource; }
+            get { return _forward1ImageSource; }
             set
             {
-                forward1ImageSource = value;
+                _forward1ImageSource = value;
                 NotifyPropertyChanged("Forward1ImageSource");
             }
         }
@@ -214,10 +208,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Forward2ImageSource
         {
-            get { return forward2ImageSource; }
+            get { return _forward2ImageSource; }
             set
             {
-                forward2ImageSource = value;
+                _forward2ImageSource = value;
                 NotifyPropertyChanged("Forward2ImageSource");
             }
         }
@@ -230,10 +224,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Forward3ImageSource
         {
-            get { return forward3ImageSource; }
+            get { return _forward3ImageSource; }
             set
             {
-                forward3ImageSource = value;
+                _forward3ImageSource = value;
                 NotifyPropertyChanged("Forward3ImageSource");
             }
         }
@@ -246,10 +240,10 @@ namespace DummyImageViewer
         /// </value>
         public Uri Forward4ImageSource
         {
-            get { return forward4ImageSource; }
+            get { return _forward4ImageSource; }
             set
             {
-                forward4ImageSource = value;
+                _forward4ImageSource = value;
                 NotifyPropertyChanged("Forward4ImageSource");
             }
         }
@@ -262,15 +256,15 @@ namespace DummyImageViewer
         /// </value>
         public Double ImageWidth
         {
-            get { return imageWidth; }
+            get { return _imageWidth; }
             set
             {
-                double ratio = imageHeight / imageWidth;
+                double ratio = _imageHeight / _imageWidth;
 
-                imageWidth = value;
+                _imageWidth = value;
                 NotifyPropertyChanged("ImageWidth");
 
-                ImageHeight = imageWidth * ratio;
+                ImageHeight = _imageWidth * ratio;
 
                 SetImageSources();
             }
@@ -284,10 +278,10 @@ namespace DummyImageViewer
         /// </value>
         public Double ImageHeight
         {
-            get { return imageHeight; }
+            get { return _imageHeight; }
             set
             {
-                imageHeight = value;
+                _imageHeight = value;
                 NotifyPropertyChanged("ImageHeight");
             }
         }
@@ -300,15 +294,15 @@ namespace DummyImageViewer
         /// </value>
         public Double ThumbImageWidth
         {
-            get { return thumbImageWidth; }
+            get { return _thumbImageWidth; }
             set
             {
-                double ratio = thumbImageHeight / thumbImageWidth;
+                double ratio = _thumbImageHeight / _thumbImageWidth;
 
-                thumbImageWidth = value;
+                _thumbImageWidth = value;
                 NotifyPropertyChanged("ThumbImageWidth");
 
-                ThumbImageHeight = thumbImageWidth * ratio;
+                ThumbImageHeight = _thumbImageWidth * ratio;
 
                 SetImageSources();
             }
@@ -322,10 +316,10 @@ namespace DummyImageViewer
         /// </value>
         public Double ThumbImageHeight
         {
-            get { return thumbImageHeight; }
+            get { return _thumbImageHeight; }
             set
             {
-                thumbImageHeight = value;
+                _thumbImageHeight = value;
                 NotifyPropertyChanged("ThumbImageHeight");
             }
         }
@@ -346,11 +340,19 @@ namespace DummyImageViewer
         /// </value>
         public int Skip
         {
-            get { return skip; }
+            get { return _skip; }
             set
             {
-                skip = value;
+                _skip = value;
                 NotifyPropertyChanged("Skip");
+
+                int s = _skip / 2;
+                for (int i = 3; i > 0; i--)
+                {
+                    _skips[i] = s;
+                    s /= 2;
+                }
+                _skips[0] = s * 2;
             }
         }
 
@@ -370,10 +372,10 @@ namespace DummyImageViewer
         /// </value>
         public bool AreThumbsVisible
         {
-            get { return areThumbsVisible; }
+            get { return _areThumbsVisible; }
             set
             {
-                areThumbsVisible = value;
+                _areThumbsVisible = value;
                 NotifyPropertyChanged("AreThumbsVisible");
             }
         }
@@ -386,10 +388,10 @@ namespace DummyImageViewer
         /// </value>
         public bool IsHelpVisible
         {
-            get { return isHelpVisible; }
+            get { return _isHelpVisible; }
             set
             {
-                isHelpVisible = value;
+                _isHelpVisible = value;
                 NotifyPropertyChanged("IsHelpVisible");
             }
         }
@@ -402,10 +404,10 @@ namespace DummyImageViewer
         /// </value>
         public bool AreSettingsVisible
         {
-            get { return areSettingsVisible; }
+            get { return _areSettingsVisible; }
             set
             {
-                areSettingsVisible = value;
+                _areSettingsVisible = value;
                 NotifyPropertyChanged("AreSettingsVisible");
             }
         }
@@ -418,7 +420,7 @@ namespace DummyImageViewer
         /// <value>
         /// Up command.
         /// </value>
-        public ICommand UpCommand { get; set; }
+        public SimpleDelegateCommand UpCommand { get; set; }
 
         /// <summary>
         /// Gets or sets down command.
@@ -426,7 +428,7 @@ namespace DummyImageViewer
         /// <value>
         /// Down command.
         /// </value>
-        public ICommand DownCommand { get; set; }
+        public SimpleDelegateCommand DownCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the left command.
@@ -434,7 +436,7 @@ namespace DummyImageViewer
         /// <value>
         /// The left command.
         /// </value>
-        public ICommand LeftCommand { get; set; }
+        public SimpleDelegateCommand LeftCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the right command.
@@ -442,7 +444,7 @@ namespace DummyImageViewer
         /// <value>
         /// The right command.
         /// </value>
-        public ICommand RightCommand { get; set; }
+        public SimpleDelegateCommand RightCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the home command.
@@ -450,7 +452,7 @@ namespace DummyImageViewer
         /// <value>
         /// The home command.
         /// </value>
-        public ICommand HomeCommand { get; set; }
+        public SimpleDelegateCommand HomeCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the end command.
@@ -458,7 +460,7 @@ namespace DummyImageViewer
         /// <value>
         /// The end command.
         /// </value>
-        public ICommand EndCommand { get; set; }
+        public SimpleDelegateCommand EndCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the zoom command.
@@ -466,7 +468,7 @@ namespace DummyImageViewer
         /// <value>
         /// The zoom command.
         /// </value>
-        public ICommand ZoomCommand { get; set; }
+        public SimpleDelegateCommand ZoomCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the toggle thumbs command.
@@ -474,7 +476,7 @@ namespace DummyImageViewer
         /// <value>
         /// The toggle thumbs command.
         /// </value>
-        public ICommand ToggleThumbsCommand { get; set; }
+        public SimpleDelegateCommand ToggleThumbsCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the reload command.
@@ -482,7 +484,7 @@ namespace DummyImageViewer
         /// <value>
         /// The reload command.
         /// </value>
-        public ICommand ReloadCommand { get; set; }
+        public SimpleDelegateCommand ReloadCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the help command.
@@ -490,7 +492,7 @@ namespace DummyImageViewer
         /// <value>
         /// The help command.
         /// </value>
-        public ICommand HelpCommand { get; set; }
+        public SimpleDelegateCommand HelpCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the options command.
@@ -498,7 +500,7 @@ namespace DummyImageViewer
         /// <value>
         /// The options command.
         /// </value>
-        public ICommand SettingsCommand { get; set; }
+        public SimpleDelegateCommand SettingsCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the copy command.
@@ -506,7 +508,7 @@ namespace DummyImageViewer
         /// <value>
         /// The copy command.
         /// </value>
-        public ICommand CopyCommand { get; set; }
+        public SimpleDelegateCommand CopyCommand { get; set; }
         #endregion
 
         #region INotifyPropertyChanged
@@ -537,19 +539,19 @@ namespace DummyImageViewer
             HomeCommand = new SimpleDelegateCommand(KeyCommandExecute, HomeCommandCanExecute);
             EndCommand = new SimpleDelegateCommand(KeyCommandExecute, EndCommandCanExecute);
             ZoomCommand = new SimpleDelegateCommand(ZoomCommandExecute, ZoomCommandCanExecute);
-            ToggleThumbsCommand = new SimpleDelegateCommand(ToggleThumbsCommandExecute, ToggleThumbsCommandCanExecute);
-            ReloadCommand = new SimpleDelegateCommand(ReloadCommandExecute, ReloadCommandCanExecute);
-            HelpCommand = new SimpleDelegateCommand(HelpCommandExecute, HelpCommandCanExecute);
-            SettingsCommand = new SimpleDelegateCommand(SettingsCommandExecute, SettingsCommandCanExecute);
+            ToggleThumbsCommand = new SimpleDelegateCommand(ToggleThumbsCommandExecute, o => true);
+            ReloadCommand = new SimpleDelegateCommand(ReloadCommandExecute, o => true);
+            HelpCommand = new SimpleDelegateCommand(HelpCommandExecute, o => true);
+            SettingsCommand = new SimpleDelegateCommand(SettingsCommandExecute, o => true);
             CopyCommand = new SimpleDelegateCommand(CopyCommandExecute, CopyCommandCanExecute);
 
             SkipValues = new List<int>();
-            for (int i = 2; i <= 1024; i *= 2)
+            for (int i = 16; i <= 1024; i *= 2)
                 SkipValues.Add(i);
 
             ImageWidthValues = new List<Double>();
-            Double w = MIN_IMAGE_WIDTH;
-            while (w <= MAX_IMAGE_WIDTH)
+            Double w = MinImageWidth;
+            while (w <= MaxImageWidth)
             {
                 ImageWidthValues.Add(w);
                 w *= 2;
@@ -563,30 +565,30 @@ namespace DummyImageViewer
         #region Private
         private void ReadImageFiles(bool force = false)
         {
-            if (!force && imageFiles != null && imageFiles.Count > 0)
+            if (!force && _imageFiles != null && _imageFiles.Count > 0)
                 return;
 
-            string filename = Path.GetFullPath(Uri.UnescapeDataString(imageSource.AbsolutePath));
+            string filename = Path.GetFullPath(Uri.UnescapeDataString(_imageSource.AbsolutePath));
             string[] files = Directory.GetFiles(Directory.GetParent(filename).FullName);
-            imageFiles = new List<string>();
+            _imageFiles = new List<string>();
 
-            int ifel = ImageFormatExtensions.Length;
+            int ifel = _imageFormatExtensions.Length;
 
-            for (int i = 0; i < files.Length; i++)
+            foreach (string t in files)
             {
-                string suffix = files[i].Substring(files[i].Length - 4).ToLower();
+                string suffix = t.Substring(t.Length - 4).ToLower();
 
                 for (int f = 0; f < ifel; f++)
                 {
-                    if (suffix == ImageFormatExtensions[f])
-                    {
-                        imageFiles.Add(files[i]);
+                    if (suffix != _imageFormatExtensions[f])
+                        continue;
 
-                        if (Path.GetFullPath(files[i]) == filename)
-                            index = imageFiles.Count - 1;
+                    _imageFiles.Add(t);
 
-                        break;
-                    }
+                    if (Path.GetFullPath(t) == filename)
+                        _index = _imageFiles.Count - 1;
+
+                    break;
                 }
             }
 
@@ -633,132 +635,131 @@ namespace DummyImageViewer
 
         private void SetImageSources()
         {
-            if (imageFiles == null || imageFiles.Count == 0)
+            if (_imageFiles == null || _imageFiles.Count == 0)
                 return;
 
-            while (imageFiles.Count > 0 && index < imageFiles.Count)
+            while (_imageFiles.Count > 0 && _index < _imageFiles.Count)
             {
                 try
                 {
-                    SetImageSource(-1, new Uri(imageFiles[index]));
+                    SetImageSource(-1, new Uri(_imageFiles[_index]));
                     break;
                 }
                 catch (NotSupportedException)
                 {
                     // System.NotSupportedException:
                     // No imaging component suitable to complete this operation was found.
-                    imageFiles.RemoveAt(index);
+                    _imageFiles.RemoveAt(_index);
                 }
             }
 
-            if (!areThumbsVisible)
+            if (!_areThumbsVisible)
                 return;
 
-            int bIndex = index;
+            int bIndex = _index;
 
             for (int b = 0; b < 4; b++)
             {
-                bIndex -= Skips[b];
+                bIndex -= _skips[b];
 
-                while (bIndex > 0 && imageFiles.Count > 0 && bIndex < imageFiles.Count)
+                while (bIndex >= 0 && _imageFiles.Count > 0 && bIndex < _imageFiles.Count)
                 {
                     try
                     {
-                        SetImageSource(b, new Uri(imageFiles[bIndex]));
+                        SetImageSource(b, new Uri(_imageFiles[bIndex]));
                         break;
                     }
                     catch (NotSupportedException)
                     {
                         // System.NotSupportedException:
                         // No imaging component suitable to complete this operation was found.
-                        imageFiles.RemoveAt(bIndex);
-                        index--;
+                        _imageFiles.RemoveAt(bIndex);
+                        _index--;
                     }
                 }
 
                 if (bIndex < 0)
-                    SetImageSource(b, new Uri(DEFAULT_IMAGE));
+                    SetImageSource(b, new Uri(DefaultImage));
             }
 
-
-            int fIndex = index;
+            int fIndex = _index + _skips[0] / 2;
 
             for (int f = 0; f < 4; f++)
             {
-                fIndex += Skips[f];
+                fIndex += _skips[f];
 
-                while (imageFiles.Count > 0 && fIndex < imageFiles.Count)
+                while (_imageFiles.Count > 0 && fIndex < _imageFiles.Count)
                 {
                     try
                     {
-                        SetImageSource(f, new Uri(imageFiles[fIndex]), false);
+                        SetImageSource(f, new Uri(_imageFiles[fIndex]), false);
                         break;
                     }
                     catch (NotSupportedException)
                     {
                         // System.NotSupportedException:
                         // No imaging component suitable to complete this operation was found.
-                        imageFiles.RemoveAt(fIndex);
+                        _imageFiles.RemoveAt(fIndex);
                     }
                 }
 
-                if (fIndex > imageFiles.Count)
-                    SetImageSource(f, new Uri(DEFAULT_IMAGE), false);
+                if (fIndex > _imageFiles.Count)
+                    SetImageSource(f, new Uri(DefaultImage), false);
             }
         }
 
         #region ICommand
         private void KeyCommandExecute(object parameter)
         {
-            if (imageFiles == null || imageFiles.Count == 0)
+            if (_imageFiles == null || _imageFiles.Count == 0)
                 return;
 
             string key = parameter as string;
 
             if (key == "Up")
-                index = Math.Min(index + Skip, imageFiles.Count - 1);
+                _index = Math.Min(_index + Skip, _imageFiles.Count - 1);
             else if (key == "Down")
-                index = Math.Max(index - Skip, 0);
+                _index = Math.Max(_index - Skip, 0);
             else if (key == "Left")
-                index = Math.Max(index - 1, 0);
+                _index = Math.Max(_index - 1, 0);
             else if (key == "Right")
-                index = Math.Min(index + 1, imageFiles.Count - 1);
+                _index = Math.Min(_index + 1, _imageFiles.Count - 1);
             else if (key == "Home")
-                index = 0;
+                _index = 0;
             else if (key == "End")
-                index = imageFiles.Count - 1;
+                _index = _imageFiles.Count - 1;
 
             SetImageSources();
         }
 
         private bool UpCommandCanExecute(object parameter)
         {
-            return imageFiles != null && index + Skip < imageFiles.Count;
+            return _imageFiles != null && _index + Skip < _imageFiles.Count;
         }
 
         private bool DownCommandCanExecute(object parameter)
         {
-            return imageFiles != null && index - Skip >= 0;
+            return _imageFiles != null && _index - Skip >= 0;
         }
 
         private bool LeftCommandCanExecute(object parameter)
         {
-            return imageSource != null && index > 0;
+            return _imageSource != null && _index > 0;
         }
 
         private bool RightCommandCanExecute(object parameter)
         {
-            return imageFiles != null && index < imageFiles.Count - 1;
+            return _imageFiles != null && _index < _imageFiles.Count - 1;
         }
 
         private bool HomeCommandCanExecute(object parameter)
         {
-            return imageFiles != null && imageSource != null && imageFiles.Count > 0;
+            return _imageFiles != null && _imageSource != null && _imageFiles.Count > 0;
         }
 
         private bool EndCommandCanExecute(object parameter)
         {
-            return imageFiles != null && imageSource != null && imageFiles.Count > 0;
+            return _imageFiles != null && _imageSource != null && _imageFiles.Count > 0;
         }
 
         private void ZoomCommandExecute(object parameter)
@@ -768,20 +769,20 @@ namespace DummyImageViewer
             if (string.IsNullOrEmpty(direction))
                 return;
 
-            if (direction == "Up" && imageWidth * 2.0 <= MAX_IMAGE_WIDTH && imageHeight * 2.0 <= MAX_IMAGE_HEIGHT)
+            if (direction == "Up" && _imageWidth * 2.0 <= MaxImageWidth && _imageHeight * 2.0 <= MaxImageHeight)
             {
-                ImageWidth = imageWidth * 2.0;
+                ImageWidth = _imageWidth * 2.0;
             }
 
-            if (direction == "Down" && imageWidth / 2.0 >= MIN_IMAGE_WIDTH && imageHeight / 2.0 >= MIN_IMAGE_HEIGHT)
+            if (direction == "Down" && _imageWidth / 2.0 >= MinImageWidth && _imageHeight / 2.0 >= MinImageHeight)
             {
-                ImageWidth = imageWidth / 2.0;
+                ImageWidth = _imageWidth / 2.0;
             }
         }
 
         private bool ZoomCommandCanExecute(object parameter)
         {
-            return imageSource != null;
+            return _imageSource != null;
         }
 
         private void ToggleThumbsCommandExecute(object parameter)
@@ -790,19 +791,9 @@ namespace DummyImageViewer
             SetImageSources();
         }
 
-        private bool ToggleThumbsCommandCanExecute(object parameter)
-        {
-            return true;
-        }
-
         private void ReloadCommandExecute(object parameter)
         {
             ReadImageFiles(true);
-        }
-
-        private bool ReloadCommandCanExecute(object parameter)
-        {
-            return true;
         }
 
         private void HelpCommandExecute(object parameter)
@@ -810,19 +801,9 @@ namespace DummyImageViewer
             IsHelpVisible = !IsHelpVisible;
         }
 
-        private bool HelpCommandCanExecute(object parameter)
-        {
-            return true;
-        }
-
         private void SettingsCommandExecute(object parameter)
         {
             AreSettingsVisible = !AreSettingsVisible;
-        }
-
-        private bool SettingsCommandCanExecute(object parameter)
-        {
-            return true;
         }
 
         private void CopyCommandExecute(object parameter)
@@ -841,18 +822,18 @@ namespace DummyImageViewer
 
         private void SetCommandsExecutionStatus()
         {
-            (UpCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (DownCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (LeftCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (RightCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (HomeCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (EndCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (ZoomCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (ToggleThumbsCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (ReloadCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (HelpCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (SettingsCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
-            (CopyCommand as SimpleDelegateCommand).RaiseCanExecuteChanged();
+            UpCommand.RaiseCanExecuteChanged();
+            DownCommand.RaiseCanExecuteChanged();
+            LeftCommand.RaiseCanExecuteChanged();
+            RightCommand.RaiseCanExecuteChanged();
+            HomeCommand.RaiseCanExecuteChanged();
+            EndCommand.RaiseCanExecuteChanged();
+            ZoomCommand.RaiseCanExecuteChanged();
+            ToggleThumbsCommand.RaiseCanExecuteChanged();
+            ReloadCommand.RaiseCanExecuteChanged();
+            HelpCommand.RaiseCanExecuteChanged();
+            SettingsCommand.RaiseCanExecuteChanged();
+            CopyCommand.RaiseCanExecuteChanged();
         }
         #endregion
         #endregion

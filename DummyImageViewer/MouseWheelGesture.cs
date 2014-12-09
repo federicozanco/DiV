@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace DummyImageViewer
 {
@@ -14,7 +10,7 @@ namespace DummyImageViewer
         {
             get
             {
-                return new MouseWheelGesture() { Direction = WheelDirection.Up };
+                return new MouseWheelGesture { Direction = WheelDirection.Up };
             }
         }
 
@@ -22,7 +18,7 @@ namespace DummyImageViewer
         {
             get
             {
-                return new MouseWheelGesture() { Direction = WheelDirection.Down };
+                return new MouseWheelGesture { Direction = WheelDirection.Down };
             }
         }
 
