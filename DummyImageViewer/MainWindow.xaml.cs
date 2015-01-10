@@ -19,8 +19,9 @@
  */
 
 using System;
-using System.Windows;
 using System.IO;
+using System.Windows;
+using System.Windows.Input;
 using DummyImageViewer.Properties;
 
 namespace DummyImageViewer
@@ -36,6 +37,9 @@ namespace DummyImageViewer
         public MainWindow()
         {
             InitializeComponent();
+
+            // odd workaround... see: http://stackoverflow.com/questions/911904/commandbinding-in-window-doesnt-catch-execution-of-command-from-contextmenu
+            Focus();
 
             MainWindowViewModel model = DataContext as MainWindowViewModel;
 
@@ -72,6 +76,11 @@ namespace DummyImageViewer
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
 
         protected override void OnClosed(EventArgs e)

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace DummyImageViewer
 {
@@ -46,6 +47,7 @@ namespace DummyImageViewer
         public const int DefaultSkip = 32;
 
         public const String DefaultImage = "pack://application:,,,/notfound.png";
+        public const String OpenFileDialogFilter = "Image Files (JPG, PNG, GIF, BMP)|*.jpg;*.png;*.gif;*.bmp";
         #endregion
 
         #region Private
@@ -509,6 +511,14 @@ namespace DummyImageViewer
         /// The copy command.
         /// </value>
         public SimpleDelegateCommand CopyCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the open file command.
+        /// </summary>
+        /// <value>
+        /// The open file command.
+        /// </value>
+        public SimpleDelegateCommand OpenFileCommand { get; set; }
         #endregion
 
         #region INotifyPropertyChanged
@@ -544,9 +554,10 @@ namespace DummyImageViewer
             HelpCommand = new SimpleDelegateCommand(HelpCommandExecute, o => true);
             SettingsCommand = new SimpleDelegateCommand(SettingsCommandExecute, o => true);
             CopyCommand = new SimpleDelegateCommand(CopyCommandExecute, CopyCommandCanExecute);
+            OpenFileCommand = new SimpleDelegateCommand(OpenFileCommandExecute, o => true);
 
             SkipValues = new List<int>();
-            for (int i = 16; i <= 1024; i *= 2)
+            for (int i = 32; i <= 1024; i *= 2)
                 SkipValues.Add(i);
 
             ImageWidthValues = new List<Double>();
@@ -682,11 +693,11 @@ namespace DummyImageViewer
                     SetImageSource(b, new Uri(DefaultImage));
             }
 
-            int fIndex = _index + _skips[0] / 2;
+            int fIndex = _index;
 
             for (int f = 0; f < 4; f++)
             {
-                fIndex += _skips[f];
+                fIndex += _skips[f] * 3 / 4;
 
                 while (_imageFiles.Count > 0 && fIndex < _imageFiles.Count)
                 {
@@ -820,6 +831,17 @@ namespace DummyImageViewer
             return ImageSource != null;
         }
 
+        private void OpenFileCommandExecute(object parameter)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = OpenFileDialogFilter };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ImageSource = new Uri(Path.GetFullPath(openFileDialog.FileName));
+                ReadImageFiles(true);
+            }
+        }
+
         private void SetCommandsExecutionStatus()
         {
             UpCommand.RaiseCanExecuteChanged();
@@ -834,6 +856,7 @@ namespace DummyImageViewer
             HelpCommand.RaiseCanExecuteChanged();
             SettingsCommand.RaiseCanExecuteChanged();
             CopyCommand.RaiseCanExecuteChanged();
+            OpenFileCommand.RaiseCanExecuteChanged();
         }
         #endregion
         #endregion
