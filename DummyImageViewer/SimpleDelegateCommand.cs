@@ -20,10 +20,8 @@ namespace DummyImageViewer
         /// Initializes a new instance of the <see cref="SimpleDelegateCommand"/> class.
         /// </summary>
         /// <param name="execute">The execute.</param>
-        public SimpleDelegateCommand(Action<object> execute) 
-                   : this(execute, null)
-        {
-        }
+        public SimpleDelegateCommand(Action<object> execute)
+            : this(execute, null) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleDelegateCommand"/> class.
@@ -46,9 +44,7 @@ namespace DummyImageViewer
         public bool CanExecute(object parameter)
         {
             if (_canExecute == null)
-            {
                 return true;
-            }
 
             return _canExecute(parameter);
         }
@@ -67,10 +63,10 @@ namespace DummyImageViewer
         /// </summary>
         public void RaiseCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            if (CanExecuteChanged == null)
+                return;
+
+            CanExecuteChanged(this, EventArgs.Empty);
         }
     }
 }

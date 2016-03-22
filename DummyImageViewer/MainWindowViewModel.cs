@@ -33,21 +33,21 @@ namespace DummyImageViewer
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         #region Constants
-        public const String DefaultWindowTitle = "DiV";
+        private const string DefaultWindowTitle = "DiV";
 
-        public const Double DefaultImageWidth = 640.0;
-        public const Double DefaultImageHeight = 512.0;
-        public const Double MinImageWidth = 20.0;
-        public const Double MinImageHeight = 16.0;
-        public const Double MaxImageWidth = 1280.0;
-        public const Double MaxImageHeight = 1024.0;
-        public const Double DefaultThumbImageWidth = 160.0;
-        public const Double DefaultThumbImageHeight = 128.0;
+        private const double DefaultImageWidth = 640.0;
+        private const double DefaultImageHeight = 360.0;
+        private const double DefaultThumbImageWidth = 160.0;
+        private const double DefaultThumbImageHeight = 80.0;
+        private const double MinImageWidth = 20.0;
+        private const double MinImageHeight = 16.0;
+        private const double MaxImageWidth = 1280.0;
+        private const double MaxImageHeight = 1024.0;
+        
+        private const int DefaultSkip = 32;
 
-        public const int DefaultSkip = 32;
-
-        public const String DefaultImage = "pack://application:,,,/notfound.png";
-        public const String OpenFileDialogFilter = "Image Files (JPG, PNG, GIF, BMP)|*.jpg;*.png;*.gif;*.bmp";
+        private const string DefaultImage = "pack://application:,,,/notfound.png";
+        private const string OpenFileDialogFilter = "Image Files (JPG, PNG, GIF, BMP)|*.jpg;*.png;*.gif;*.bmp";
         #endregion
 
         #region Private
@@ -55,8 +55,8 @@ namespace DummyImageViewer
         private readonly int[] _skips = { 8, 8, 16, 32 };
         private readonly string[] _imageFormatExtensions = { ".jpg", ".png", ".gif", ".bmp" };
 
-        private String _windowTitle = DefaultWindowTitle;
-        
+        private string _windowTitle = DefaultWindowTitle;
+
         private Uri _imageSource = new Uri(DefaultImage);
         private Uri _backward1ImageSource = new Uri(DefaultImage);
         private Uri _backward2ImageSource = new Uri(DefaultImage);
@@ -67,15 +67,15 @@ namespace DummyImageViewer
         private Uri _forward3ImageSource = new Uri(DefaultImage);
         private Uri _forward4ImageSource = new Uri(DefaultImage);
 
-        private Double _imageWidth = DefaultImageWidth;
-        private Double _imageHeight = DefaultImageHeight;
-        private Double _thumbImageWidth = DefaultThumbImageWidth;
-        private Double _thumbImageHeight = DefaultThumbImageHeight;
+        private double _imageWidth = DefaultImageWidth;
+        private double _imageHeight = DefaultImageHeight;
+        private double _thumbImageWidth = DefaultThumbImageWidth;
+        private double _thumbImageHeight = DefaultThumbImageHeight;
         private List<string> _imageFiles;
         private int _index = -1;
         private int _skip = DefaultSkip;
 
-        private bool _areThumbsVisible = true;
+        private bool _areThumbsVisible = false;
         private bool _isHelpVisible;
         private bool _areSettingsVisible;
         #endregion
@@ -87,7 +87,7 @@ namespace DummyImageViewer
         /// <value>
         /// The window title.
         /// </value>
-        public String WindowTitle
+        public string WindowTitle
         {
             get { return _windowTitle; }
             set
@@ -256,12 +256,12 @@ namespace DummyImageViewer
         /// <value>
         /// The width of the image.
         /// </value>
-        public Double ImageWidth
+        public double ImageWidth
         {
             get { return _imageWidth; }
             set
             {
-                double ratio = _imageHeight / _imageWidth;
+                var ratio = _imageHeight / _imageWidth;
 
                 _imageWidth = value;
                 NotifyPropertyChanged("ImageWidth");
@@ -278,7 +278,7 @@ namespace DummyImageViewer
         /// <value>
         /// The height of the image.
         /// </value>
-        public Double ImageHeight
+        public double ImageHeight
         {
             get { return _imageHeight; }
             set
@@ -294,12 +294,12 @@ namespace DummyImageViewer
         /// <value>
         /// The width of the thumb image.
         /// </value>
-        public Double ThumbImageWidth
+        public double ThumbImageWidth
         {
             get { return _thumbImageWidth; }
             set
             {
-                double ratio = _thumbImageHeight / _thumbImageWidth;
+                var ratio = _thumbImageHeight / _thumbImageWidth;
 
                 _thumbImageWidth = value;
                 NotifyPropertyChanged("ThumbImageWidth");
@@ -316,7 +316,7 @@ namespace DummyImageViewer
         /// <value>
         /// The height of the thumb image.
         /// </value>
-        public Double ThumbImageHeight
+        public double ThumbImageHeight
         {
             get { return _thumbImageHeight; }
             set
@@ -332,7 +332,7 @@ namespace DummyImageViewer
         /// <value>
         /// The image width values.
         /// </value>
-        public List<Double> ImageWidthValues { get; set; }
+        public List<double> ImageWidthValues { get; set; }
 
         /// <summary>
         /// Gets or sets the skip.
@@ -348,12 +348,14 @@ namespace DummyImageViewer
                 _skip = value;
                 NotifyPropertyChanged("Skip");
 
-                int s = _skip / 2;
-                for (int i = 3; i > 0; i--)
+                var s = _skip / 2;
+
+                for (var i = 3; i > 0; i--)
                 {
                     _skips[i] = s;
                     s /= 2;
                 }
+
                 _skips[0] = s * 2;
             }
         }
@@ -527,12 +529,12 @@ namespace DummyImageViewer
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(String info)
+        private void NotifyPropertyChanged(string info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            if (PropertyChanged == null)
+                return;
+
+            PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
         #endregion
 
@@ -557,11 +559,11 @@ namespace DummyImageViewer
             OpenFileCommand = new SimpleDelegateCommand(OpenFileCommandExecute, o => true);
 
             SkipValues = new List<int>();
-            for (int i = 32; i <= 1024; i *= 2)
+            for (var i = 32; i <= 1024; i *= 2)
                 SkipValues.Add(i);
 
-            ImageWidthValues = new List<Double>();
-            Double w = MinImageWidth;
+            ImageWidthValues = new List<double>();
+            var w = MinImageWidth;
             while (w <= MaxImageWidth)
             {
                 ImageWidthValues.Add(w);
@@ -570,26 +572,23 @@ namespace DummyImageViewer
         }
         #endregion
 
-        #region Public methods
-        #endregion
-
         #region Private
         private void ReadImageFiles(bool force = false)
         {
             if (!force && _imageFiles != null && _imageFiles.Count > 0)
                 return;
 
-            string filename = Path.GetFullPath(Uri.UnescapeDataString(_imageSource.AbsolutePath));
-            string[] files = Directory.GetFiles(Directory.GetParent(filename).FullName);
+            var filename = Path.GetFullPath(Uri.UnescapeDataString(_imageSource.AbsolutePath));
+            var files = Directory.GetFiles(Directory.GetParent(filename).FullName);
             _imageFiles = new List<string>();
 
-            int ifel = _imageFormatExtensions.Length;
+            var ifel = _imageFormatExtensions.Length;
 
-            foreach (string t in files)
+            foreach (var t in files)
             {
-                string suffix = t.Substring(t.Length - 4).ToLower();
+                var suffix = t.Substring(t.Length - 4).ToLower();
 
-                for (int f = 0; f < ifel; f++)
+                for (var f = 0; f < ifel; f++)
                 {
                     if (suffix != _imageFormatExtensions[f])
                         continue;
@@ -667,9 +666,9 @@ namespace DummyImageViewer
             if (!_areThumbsVisible)
                 return;
 
-            int bIndex = _index;
+            var bIndex = _index;
 
-            for (int b = 0; b < 4; b++)
+            for (var b = 0; b < 4; b++)
             {
                 bIndex -= _skips[b];
 
@@ -693,9 +692,9 @@ namespace DummyImageViewer
                     SetImageSource(b, new Uri(DefaultImage));
             }
 
-            int fIndex = _index;
+            var fIndex = _index;
 
-            for (int f = 0; f < 4; f++)
+            for (var f = 0; f < 4; f++)
             {
                 fIndex += _skips[f] * 3 / 4;
 
@@ -725,7 +724,7 @@ namespace DummyImageViewer
             if (_imageFiles == null || _imageFiles.Count == 0)
                 return;
 
-            string key = parameter as string;
+            var key = parameter as string;
 
             if (key == "Up")
                 _index = Math.Min(_index + Skip, _imageFiles.Count - 1);
@@ -781,14 +780,10 @@ namespace DummyImageViewer
                 return;
 
             if (direction == "Up" && _imageWidth * 2.0 <= MaxImageWidth && _imageHeight * 2.0 <= MaxImageHeight)
-            {
                 ImageWidth = _imageWidth * 2.0;
-            }
 
             if (direction == "Down" && _imageWidth / 2.0 >= MinImageWidth && _imageHeight / 2.0 >= MinImageHeight)
-            {
                 ImageWidth = _imageWidth / 2.0;
-            }
         }
 
         private bool ZoomCommandCanExecute(object parameter)
@@ -819,11 +814,11 @@ namespace DummyImageViewer
 
         private void CopyCommandExecute(object parameter)
         {
-            DataObject objData = new DataObject();
-            string[] filename = new string[1];
-            filename[0] = Uri.UnescapeDataString(ImageSource.AbsolutePath);
-            objData.SetData(DataFormats.FileDrop, filename, true);
-            Clipboard.SetDataObject(objData, true);
+            Clipboard.SetDataObject(
+                new DataObject(
+                    DataFormats.FileDrop,
+                    new string[] { Uri.UnescapeDataString(ImageSource.AbsolutePath) },
+                    true), true);
         }
 
         private bool CopyCommandCanExecute(object parameter)
@@ -833,13 +828,13 @@ namespace DummyImageViewer
 
         private void OpenFileCommandExecute(object parameter)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = OpenFileDialogFilter };
+            var openFileDialog = new OpenFileDialog() { Filter = OpenFileDialogFilter };
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                ImageSource = new Uri(Path.GetFullPath(openFileDialog.FileName));
-                ReadImageFiles(true);
-            }
+            if (openFileDialog.ShowDialog() != true)
+                return;
+
+            ImageSource = new Uri(Path.GetFullPath(openFileDialog.FileName));
+            ReadImageFiles(true);
         }
 
         private void SetCommandsExecutionStatus()

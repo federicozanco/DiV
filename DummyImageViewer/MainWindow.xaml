@@ -36,47 +36,79 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close"
-                        Executed="CloseCommandHandler"/>
+                        Executed="CloseCommandHandler" />
     </Window.CommandBindings>
-    
-    <Window.InputBindings>
-        <KeyBinding Key="Up" Command="{Binding UpCommand}" CommandParameter="Up" />
-        <KeyBinding Key="Down" Command="{Binding DownCommand}" CommandParameter="Down" />
-        <KeyBinding Key="Left" Command="{Binding LeftCommand}" CommandParameter="Left" />
-        <KeyBinding Key="Right" Command="{Binding RightCommand}" CommandParameter="Right" />
-        <KeyBinding Key="Home" Command="{Binding HomeCommand}" CommandParameter="Home" />
-        <KeyBinding Key="End" Command="{Binding EndCommand}" CommandParameter="End" />
-        <KeyBinding Key="T" Command="{Binding ToggleThumbsCommand}" />
-        <KeyBinding Key="R" Command="{Binding ReloadCommand}" />
-        <KeyBinding Key="H" Command="{Binding HelpCommand}" />
-        <KeyBinding Key="S" Command="{Binding SettingsCommand}" />
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}" />
-        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CopyCommand}" />
-        <KeyBinding Key="Esc" Command="ApplicationCommands.Close" />
 
-        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Up}" Command="{Binding ZoomCommand}" CommandParameter="Up" />
-        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Down}" Command="{Binding ZoomCommand}" CommandParameter="Down" />
+    <Window.InputBindings>
+        <KeyBinding Key="Up"
+                    Command="{Binding UpCommand}"
+                    CommandParameter="Up" />
+        <KeyBinding Key="Down"
+                    Command="{Binding DownCommand}"
+                    CommandParameter="Down" />
+        <KeyBinding Key="Left"
+                    Command="{Binding LeftCommand}"
+                    CommandParameter="Left" />
+        <KeyBinding Key="Right"
+                    Command="{Binding RightCommand}"
+                    CommandParameter="Right" />
+        <KeyBinding Key="Home"
+                    Command="{Binding HomeCommand}"
+                    CommandParameter="Home" />
+        <KeyBinding Key="End"
+                    Command="{Binding EndCommand}"
+                    CommandParameter="End" />
+        <KeyBinding Key="T"
+                    Command="{Binding ToggleThumbsCommand}" />
+        <KeyBinding Key="R"
+                    Command="{Binding ReloadCommand}" />
+        <KeyBinding Key="H"
+                    Command="{Binding HelpCommand}" />
+        <KeyBinding Key="S"
+                    Command="{Binding SettingsCommand}" />
+        <KeyBinding Key="O"
+                    Modifiers="Ctrl"
+                    Command="{Binding OpenFileCommand}" />
+        <KeyBinding Key="C"
+                    Modifiers="Ctrl"
+                    Command="{Binding CopyCommand}" />
+        <KeyBinding Key="Esc"
+                    Command="ApplicationCommands.Close" />
+
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Up}"
+                      Command="{Binding ZoomCommand}"
+                      CommandParameter="Up" />
+        <MouseBinding Gesture="{x:Static local:MouseWheelGesture.Down}"
+                      Command="{Binding ZoomCommand}"
+                      CommandParameter="Down" />
     </Window.InputBindings>
 
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Open..." Command="{Binding OpenFileCommand}" />
+            <MenuItem Header="Open..."
+                      Command="{Binding OpenFileCommand}" />
             <Separator />
-            <MenuItem Header="Copy" Command="{Binding CopyCommand}" />
+            <MenuItem Header="Copy"
+                      Command="{Binding CopyCommand}" />
             <Separator />
-            <MenuItem Header="Toggle thumbs" Command="{Binding ToggleThumbsCommand}" />
-            <MenuItem Header="Reload" Command="{Binding ReloadCommand}" />
+            <MenuItem Header="Toggle thumbs"
+                      Command="{Binding ToggleThumbsCommand}" />
+            <MenuItem Header="Reload"
+                      Command="{Binding ReloadCommand}" />
             <Separator />
-            <MenuItem Header="Settings..." Command="{Binding SettingsCommand}" />
-            <MenuItem Header="Help..." Command="{Binding HelpCommand}" />
+            <MenuItem Header="Settings..."
+                      Command="{Binding SettingsCommand}" />
+            <MenuItem Header="Help..."
+                      Command="{Binding HelpCommand}" />
             <Separator />
-            <MenuItem Header="Close" Command="ApplicationCommands.Close" />
+            <MenuItem Header="Close"
+                      Command="ApplicationCommands.Close" />
         </ContextMenu>
     </Window.ContextMenu>
 
     <Grid>
         <Grid.Resources>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -90,7 +122,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+
         <Image Name="Backward4"
                Grid.Row="0"
                Grid.Column="0"
@@ -123,7 +155,9 @@
                Width="{Binding ThumbImageWidth}"
                Visibility="{Binding AreThumbsVisible, Converter={StaticResource BooleanToVisibility}}" />
 
-        <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="1">
+        <Grid Grid.Row="0"
+              Grid.RowSpan="4"
+              Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -149,12 +183,23 @@
                     Grid.Column="1"
                     BorderBrush="Transparent"
                     Background="Transparent"
-                    Margin="10"
-                    Command="{Binding UpCommand}" CommandParameter="Up" >
-                <StackPanel Orientation="Horizontal">
-                    <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
-                    <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
-                </StackPanel>
+                    HorizontalAlignment="Center"
+                    Margin="5"
+                    Command="{Binding UpCommand}"
+                    CommandParameter="Up">
+                <Button.LayoutTransform>
+                    <RotateTransform CenterX="0.5"
+                                     CenterY="0.5"
+                                     Angle="315" />
+                </Button.LayoutTransform>
+
+                <Path Width="47.5646"
+                      Height="49.2324"
+                      Stretch="Fill"
+                      Fill="#FF000000"
+                      Stroke="#FFFFFFFF"
+                      StrokeThickness="2"
+                      Data="M 494.718,633.76C 508.77,634.067 520.133,622.527 519.738,608.563C 519.534,601.327 516.378,595.502 512.286,591.527C 508.354,587.711 502.225,583.955 493.832,584.608C 482.414,585.496 475.704,591.912 472.184,601.111L 501.638,601.111C 501.668,599.118 501.62,595.698 501.638,593.124C 505.862,596.766 509.822,601.13 513.884,605.191C 514.376,605.684 517.992,608.638 517.965,609.272C 517.962,609.336 516.478,610.758 516.013,611.224C 513.753,613.483 511.846,615.214 509.802,617.258C 506.906,620.154 504.43,623.172 501.638,625.066C 501.618,622.551 501.669,619.192 501.638,617.258L 472.184,617.258C 475.668,626.822 483.53,633.515 494.718,633.76 Z " />
             </Button>
 
             <Button Name="DownButton"
@@ -162,12 +207,23 @@
                     Grid.Column="1"
                     BorderBrush="Transparent"
                     Background="Transparent"
-                    Margin="10"
-                    Command="{Binding DownCommand}" CommandParameter="Down">
-                <StackPanel Orientation="Horizontal">
-                    <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
-                    <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
-                </StackPanel>
+                    HorizontalAlignment="Center"
+                    Margin="5"
+                    Command="{Binding DownCommand}"
+                    CommandParameter="Down">
+                <Button.LayoutTransform>
+                    <RotateTransform CenterX="0.5"
+                                     CenterY="0.5"
+                                     Angle="135" />
+                </Button.LayoutTransform>
+
+                <Path Width="47.5646"
+                      Height="49.2324"
+                      Stretch="Fill"
+                      Fill="#FF000000"
+                      Stroke="#FFFFFFFF"
+                      StrokeThickness="2"
+                      Data="M 494.718,633.76C 508.77,634.067 520.133,622.527 519.738,608.563C 519.534,601.327 516.378,595.502 512.286,591.527C 508.354,587.711 502.225,583.955 493.832,584.608C 482.414,585.496 475.704,591.912 472.184,601.111L 501.638,601.111C 501.668,599.118 501.62,595.698 501.638,593.124C 505.862,596.766 509.822,601.13 513.884,605.191C 514.376,605.684 517.992,608.638 517.965,609.272C 517.962,609.336 516.478,610.758 516.013,611.224C 513.753,613.483 511.846,615.214 509.802,617.258C 506.906,620.154 504.43,623.172 501.638,625.066C 501.618,622.551 501.669,619.192 501.638,617.258L 472.184,617.258C 475.668,626.822 483.53,633.515 494.718,633.76 Z " />
             </Button>
 
             <Button Name="LeftButton"
@@ -175,9 +231,23 @@
                     Grid.Column="0"
                     BorderBrush="Transparent"
                     Background="Transparent"
-                    Margin="10"
-                    Command="{Binding LeftCommand}" CommandParameter="Left">
-                <Polygon Points="25,0 25,50, 0,25" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    Command="{Binding LeftCommand}"
+                    CommandParameter="Left">
+                <Button.LayoutTransform>
+                    <RotateTransform CenterX="0.5"
+                                     CenterY="0.5"
+                                     Angle="180" />
+                </Button.LayoutTransform>
+
+                <Path Width="47.5646"
+                      Height="49.2324"
+                      Stretch="Fill"
+                      Fill="#FF000000"
+                      Stroke="#FFFFFFFF"
+                      StrokeThickness="2"
+                      Data="M 494.718,633.76C 508.77,634.067 520.133,622.527 519.738,608.563C 519.534,601.327 516.378,595.502 512.286,591.527C 508.354,587.711 502.225,583.955 493.832,584.608C 482.414,585.496 475.704,591.912 472.184,601.111L 501.638,601.111C 501.668,599.118 501.62,595.698 501.638,593.124C 505.862,596.766 509.822,601.13 513.884,605.191C 514.376,605.684 517.992,608.638 517.965,609.272C 517.962,609.336 516.478,610.758 516.013,611.224C 513.753,613.483 511.846,615.214 509.802,617.258C 506.906,620.154 504.43,623.172 501.638,625.066C 501.618,622.551 501.669,619.192 501.638,617.258L 472.184,617.258C 475.668,626.822 483.53,633.515 494.718,633.76 Z " />
             </Button>
 
             <Button Name="RightButton"
@@ -185,9 +255,17 @@
                     Grid.Column="2"
                     BorderBrush="Transparent"
                     Background="Transparent"
-                    Margin="10"
-                    Command="{Binding RightCommand}" CommandParameter="Right">
-                <Polygon Points="0,0 25,25, 0,50" Stroke="#50FF0000" Fill="#20aaaaaa" StrokeThickness="5" />
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    Command="{Binding RightCommand}"
+                    CommandParameter="Right">
+                <Path Width="47.5646"
+                      Height="49.2324"
+                      Stretch="Fill"
+                      Fill="#FF000000"
+                      Stroke="#FFFFFFFF"
+                      StrokeThickness="2"
+                      Data="M 494.718,633.76C 508.77,634.067 520.133,622.527 519.738,608.563C 519.534,601.327 516.378,595.502 512.286,591.527C 508.354,587.711 502.225,583.955 493.832,584.608C 482.414,585.496 475.704,591.912 472.184,601.111L 501.638,601.111C 501.668,599.118 501.62,595.698 501.638,593.124C 505.862,596.766 509.822,601.13 513.884,605.191C 514.376,605.684 517.992,608.638 517.965,609.272C 517.962,609.336 516.478,610.758 516.013,611.224C 513.753,613.483 511.846,615.214 509.802,617.258C 506.906,620.154 504.43,623.172 501.638,625.066C 501.618,622.551 501.669,619.192 501.638,617.258L 472.184,617.258C 475.668,626.822 483.53,633.515 494.718,633.76 Z " />
             </Button>
 
             <!-- Help -->
@@ -197,110 +275,192 @@
                         Grid.ColumnSpan="3"
                         Name="HelpPanel"
                         Visibility="{Binding IsHelpVisible, Converter={StaticResource BooleanToVisibility}}">
-                <Grid Background="#99505050"
+                <Grid Background="#EECCCCCC"
                       HorizontalAlignment="Center"
                       Margin="20">
                     <Grid.RowDefinitions>
+                        <!-- 1 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 2 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 3 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 4 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 5 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 6 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 7 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 8 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 9 -->
                         <RowDefinition Height="Auto" />
+                        <!-- 10 -->
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <!-- 11 -->
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Title -->
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Dummy Image Viewer Help" />
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="5"
+                           HorizontalAlignment="Center"
+                           Content="Dummy Image Viewer Help" />
 
                     <!-- Up -->
-                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <StackPanel Grid.Row="1"
+                                Grid.Column="0"
+                                Orientation="Horizontal">
                         <Label Content="Go back of " />
                         <Label Content="{Binding Skip}" />
                         <Label Content=" images" />
                     </StackPanel>
-                    <Label Grid.Row="1" Grid.Column="1" Content="Up" />
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Content="Up" />
 
                     <!-- Down -->
-                    <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0"
+                                Orientation="Horizontal">
                         <Label Content="Skip forward of " />
                         <Label Content="{Binding Skip}" />
                         <Label Content=" images" />
                     </StackPanel>
-                    <Label Grid.Row="2" Grid.Column="1" Content="Down" />
+                    <Label Grid.Row="2"
+                           Grid.Column="1"
+                           Content="Down" />
 
                     <!-- Left -->
-                    <Label Grid.Row="3" Grid.Column="0" Content="Go to prev image" />
-                    <Label Grid.Row="3" Grid.Column="1" Content="Left" />
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           Content="Go to prev image" />
+                    <Label Grid.Row="3"
+                           Grid.Column="1"
+                           Content="Left" />
 
                     <!-- Right -->
-                    <Label Grid.Row="4" Grid.Column="0" Content="Go to next image" />
-                    <Label Grid.Row="4" Grid.Column="1" Content="Right" />
+                    <Label Grid.Row="4"
+                           Grid.Column="0"
+                           Content="Go to next image" />
+                    <Label Grid.Row="4"
+                           Grid.Column="1"
+                           Content="Right" />
 
                     <!-- Home -->
-                    <Label Grid.Row="5" Grid.Column="0" Content="Go to first image" />
-                    <Label Grid.Row="5" Grid.Column="1" Content="Home" />
+                    <Label Grid.Row="5"
+                           Grid.Column="0"
+                           Content="Go to first image" />
+                    <Label Grid.Row="5"
+                           Grid.Column="1"
+                           Content="Home" />
 
                     <!-- End -->
-                    <Label Grid.Row="6" Grid.Column="0" Content="Go to last image" />
-                    <Label Grid.Row="6" Grid.Column="1" Content="End" />
+                    <Label Grid.Row="6"
+                           Grid.Column="0"
+                           Content="Go to last image" />
+                    <Label Grid.Row="6"
+                           Grid.Column="1"
+                           Content="End" />
 
                     <!-- T -->
-                    <Label Grid.Row="7" Grid.Column="0" Content="Toggle thumbs" />
-                    <Label Grid.Row="7" Grid.Column="1" Content="T" />
+                    <Label Grid.Row="7"
+                           Grid.Column="0"
+                           Content="Toggle thumbs" />
+                    <Label Grid.Row="7"
+                           Grid.Column="1"
+                           Content="T" />
 
                     <!-- R -->
-                    <Label Grid.Row="8" Grid.Column="0" Content="Reload images" />
-                    <Label Grid.Row="8" Grid.Column="1" Content="R" />
+                    <Label Grid.Row="8"
+                           Grid.Column="0"
+                           Content="Reload images" />
+                    <Label Grid.Row="8"
+                           Grid.Column="1"
+                           Content="R" />
 
                     <!-- H -->
-                    <Label Grid.Row="9" Grid.Column="0" Content="Help" />
-                    <Label Grid.Row="9" Grid.Column="1" Content="H" />
+                    <Label Grid.Row="9"
+                           Grid.Column="0"
+                           Content="Help" />
+                    <Label Grid.Row="9"
+                           Grid.Column="1"
+                           Content="H" />
 
                     <!-- S -->
-                    <Label Grid.Row="10" Grid.Column="0" Content="Settings" />
-                    <Label Grid.Row="10" Grid.Column="1" Content="S" />
+                    <Label Grid.Row="10"
+                           Grid.Column="0"
+                           Content="Settings" />
+                    <Label Grid.Row="10"
+                           Grid.Column="1"
+                           Content="S" />
 
                     <!-- O -->
-                    <Label Grid.Row="11" Grid.Column="0" Content="Open file" />
-                    <Label Grid.Row="11" Grid.Column="1" Content="Ctrl+O" />
+                    <Label Grid.Row="1"
+                           Grid.Column="3"
+                           Content="Open file" />
+                    <Label Grid.Row="1"
+                           Grid.Column="4"
+                           Content="Ctrl+O" />
 
                     <!-- Copy -->
-                    <Label Grid.Row="12" Grid.Column="0" Content="Copy" />
-                    <Label Grid.Row="12" Grid.Column="1" Content="Ctrl+C" />
+                    <Label Grid.Row="2"
+                           Grid.Column="3"
+                           Content="Copy" />
+                    <Label Grid.Row="2"
+                           Grid.Column="4"
+                           Content="Ctrl+C" />
 
                     <!-- Esc -->
-                    <Label Grid.Row="13" Grid.Column="0" Content="Close" />
-                    <Label Grid.Row="13" Grid.Column="1" Content="Esc" />
+                    <Label Grid.Row="3"
+                           Grid.Column="3"
+                           Content="Close" />
+                    <Label Grid.Row="3"
+                           Grid.Column="4"
+                           Content="Esc" />
 
                     <!-- Wheel Up -->
-                    <Label Grid.Row="14" Grid.Column="0" Content="Zoom In" />
-                    <Label Grid.Row="14" Grid.Column="1" Content="Mouse Wheel Up" />
+                    <Label Grid.Row="4"
+                           Grid.Column="3"
+                           Content="Zoom In" />
+                    <Label Grid.Row="4"
+                           Grid.Column="4"
+                           Content="Mouse Wheel Up" />
 
                     <!-- Wheel Down -->
-                    <Label Grid.Row="15" Grid.Column="0" Content="Zoom Out" />
-                    <Label Grid.Row="15" Grid.Column="1" Content="Mouse Wheel Down" />
+                    <Label Grid.Row="5"
+                           Grid.Column="3"
+                           Content="Zoom Out" />
+                    <Label Grid.Row="5"
+                           Grid.Column="4"
+                           Content="Mouse Wheel Down" />
 
                     <!-- Credits -->
-                    <Label Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Content="by siorarina 2014 (stealing salary)"  Margin="20" />
+                    <Label Grid.Row="6"
+                           Grid.RowSpan="3"
+                           Grid.Column="3"
+                           Grid.ColumnSpan="2"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="5,0,0,0"
+                           Content="by siorarina 2014 (stealing salary)" />
 
                     <!-- Hide -->
-                    <Button Grid.Row="17" Grid.Column="1" Content="Hide" Margin="10" Command="{Binding HelpCommand}" />
+                    <Button Grid.Row="9"
+                            Grid.Column="4"
+                            Content="Hide"
+                            HorizontalAlignment="Center"
+                            Command="{Binding HelpCommand}" />
                 </Grid>
             </StackPanel>
 
@@ -310,8 +470,10 @@
                         Grid.RowSpan="3"
                         Grid.ColumnSpan="3"
                         Name="SettingsPanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Visibility="{Binding AreSettingsVisible, Converter={StaticResource BooleanToVisibility}}">
-                <Grid Background="#99505050"
+                <Grid Background="#EECCCCCC"
                       HorizontalAlignment="Center"
                       Margin="20">
                     <Grid.RowDefinitions>
@@ -327,22 +489,45 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Title -->
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Dummy Image Viewer Options" />
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           HorizontalAlignment="Center"
+                           Content="Dummy Image Viewer Options" />
 
                     <!-- Skip -->
-                    <Label Grid.Row="1" Grid.Column="0" Content="Skip" />
-                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SkipValues}" SelectedValue="{Binding Skip}" />
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Content="Skip" />
+                    <ComboBox Grid.Row="1"
+                              Grid.Column="1"
+                              ItemsSource="{Binding SkipValues}"
+                              SelectedValue="{Binding Skip}" />
 
                     <!-- Default Width -->
-                    <Label Grid.Row="2" Grid.Column="0" Content="Default Width" />
-                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ImageWidthValues}" SelectedValue="{Binding ImageWidth}" />
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           Content="Default Width" />
+                    <ComboBox Grid.Row="2"
+                              Grid.Column="1"
+                              ItemsSource="{Binding ImageWidthValues}"
+                              SelectedValue="{Binding ImageWidth}" />
 
                     <!-- Thumb Width -->
-                    <Label Grid.Row="3" Grid.Column="0" Content="Thumb Width" />
-                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ImageWidthValues}" SelectedValue="{Binding ThumbImageWidth}" />
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           Content="Thumb Width" />
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="1"
+                              ItemsSource="{Binding ImageWidthValues}"
+                              SelectedValue="{Binding ThumbImageWidth}" />
 
                     <!-- Hide -->
-                    <Button Grid.Row="4" Grid.Column="1" Content="Hide" Margin="10" Command="{Binding SettingsCommand}" />
+                    <Button Grid.Row="4"
+                            Grid.Column="1"
+                            Content="Hide"
+                            Margin="10"
+                            Command="{Binding SettingsCommand}" />
                 </Grid>
             </StackPanel>
         </Grid>
