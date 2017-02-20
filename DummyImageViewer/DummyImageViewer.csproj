@@ -96,6 +96,7 @@
     </ApplicationDefinition>
     <Compile Include="MouseWheelGesture.cs" />
     <Compile Include="SimpleDelegateCommand.cs" />
+    <Compile Include="UriToImageSourceConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

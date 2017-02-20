@@ -38,17 +38,17 @@ namespace DummyImageViewer
         {
             InitializeComponent();
 
-            // odd workaround... see: http://stackoverflow.com/questions/911904/commandbinding-in-window-doesnt-catch-execution-of-command-from-contextmenu
-            Focus();
-
-            MainWindowViewModel model = DataContext as MainWindowViewModel;
+            var model = DataContext as MainWindowViewModel;
 
             if (model != null)
             {
-                model.Skip = (int)Settings.Default["Skip"];
                 model.ImageWidth = (double)Settings.Default["ImageWidth"];
+                model.Skip = (int)Settings.Default["Skip"];
                 model.ThumbImageWidth = (double)Settings.Default["ThumbImageWidth"];
             }
+
+            // odd workaround... see: http://stackoverflow.com/questions/911904/commandbinding-in-window-doesnt-catch-execution-of-command-from-contextmenu
+            Focus();
 
             // Make sure we handle command line args:
             Loaded += MainWindow_Loaded;
@@ -65,7 +65,7 @@ namespace DummyImageViewer
                     // Act on the file...
                     if (File.Exists(filename))
                     {
-                        MainWindowViewModel model = DataContext as MainWindowViewModel;
+                        var model = DataContext as MainWindowViewModel;
 
                         if (model != null)
                             model.ImageSource = new Uri(Path.GetFullPath(filename));
@@ -87,7 +87,7 @@ namespace DummyImageViewer
         {
             base.OnClosed(e);
 
-            MainWindowViewModel model = DataContext as MainWindowViewModel;
+            var model = DataContext as MainWindowViewModel;
             if (model == null)
                 return;
 
